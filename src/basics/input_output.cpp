@@ -1,6 +1,6 @@
 #include <iostream>
 // what's up mingw? why does std::string crash on startup?
-// #include <string>
+#include <string>
 // makes std:: namespace declaration redundant
 using namespace std;
 
@@ -42,13 +42,13 @@ int main() {
     cout << "You gave me the string: " << words << endl;
 
     // what's up mingw? why does this work with std::string immediately crash on startup?
-    // cin.clear();
-    // cin.sync();
+    cin.clear();
+    cin.sync();
 
-    // cout << "Tell me a sentence, using std::getline" << endl;
-    // string words2;
-    // getline(cin, words2);
-    // cout << "You gave me the string: " << words2 << endl;
+    cout << "Tell me a sentence, using std::getline" << endl;
+    string words2;
+    getline(cin, words2);
+    cout << "You gave me the string: " << words2 << endl;
 
     return 0;
 }
