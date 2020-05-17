@@ -4,7 +4,17 @@
         {
             "type": "shell",
             "label": "g++ build active file",
-            "command": "g++ -g ${file} -o ${fileDirname}/${fileBasenameNoExtension}.exe -static-libstdc++",
+            "command": "g++",
+            "args":[
+                "-g",
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
+                "${fileDirname}\\*.cpp",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-static-libstdc++"
+            ],
             "options": {
 				"cwd": "C:\\MinGW\\bin"
 			},

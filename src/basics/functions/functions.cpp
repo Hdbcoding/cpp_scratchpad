@@ -4,7 +4,7 @@
 
 int main() {
     int x, y;
-    std::cout << "Enter two numbers: ";
+    std::cout << "Enter two numbers: " << std::endl;
     // in the console, the two inputs should be separated by spaces
     std::cin >> x >> y;
     // function must be declared before it is used - doesn't necessarily have to be defined yet
