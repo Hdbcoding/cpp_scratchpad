@@ -1,4 +1,5 @@
 #include <iostream>
+#include "functions.h"
 
 int main(){
     int x{10};
@@ -19,6 +20,32 @@ int main(){
     p2 = &x;
     std::cout << "value of pointer: " << p2 << std::endl;
     std::cout << "value at pointer: " << *p2 << std::endl;
+
+    int a{3};
+    int b{5};
+    int *ap = &a;
+    int *bp = &b;
+
+    swap(ap, bp);
+
+    std::cout << "Value of a should now be 5: " << a << std::endl;
+    std::cout << "Value of b should now be 3: " << b << std::endl;
+
+    int r = 0;
+    int *rp = &r;
+    int r2 = add(ap, bp);
+    add(ap, bp, rp);
+
+    std::cout << "Should get same value for r " << r << " and r2 " << r2 << std::endl;
+
+    int fa = 1;
+    int *fap = &fa;
+    factorial(ap, fap);
+    int fb = 1;
+    int *fbp = &fb;
+    factorial(bp, fbp);
+
+    std::cout << "Factorial for a: " << fa << ", and b: " << fb << std::endl;
 
     return 0;
 }
