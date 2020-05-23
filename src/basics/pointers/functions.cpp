@@ -16,7 +16,5 @@ void swap(int *a, int *b){
 void factorial(int *a, int *result){
     int b = *a;
     *result = 1;
-    while (b > 1){
-        *result *= b--;
-    }
+    while (b > 1) *result *= b--;
 }
