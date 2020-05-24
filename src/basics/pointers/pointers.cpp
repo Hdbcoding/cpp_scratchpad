@@ -47,5 +47,10 @@ int main(){
 
     std::cout << "Factorial for a: " << fa << ", and b: " << fb << std::endl;
 
+    std::cout << "don't need to explicitly declare a pointer variable" << std::endl;
+    int z{10}, y{5};
+    swap(&z, &y);
+    std::cout << "z: " << z << ", y: " << y << std::endl;
+
     return 0;
 }

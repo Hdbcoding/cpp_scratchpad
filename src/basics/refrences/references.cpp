@@ -29,4 +29,10 @@ int main(){
 
     factorial(5, ref);
     cout << "should be 120: " << x << endl;
+
+    cout << "don't need to explicitly declare a reference variable" << endl;
+
+    int a{5}, b{10};
+    swap(a, b);
+    cout << "a: " << a << ", b: " << b << endl;
 }
