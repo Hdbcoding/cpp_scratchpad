@@ -6,9 +6,13 @@ int Account::_generator = 1;
 Account::Account(const std::string &name, float balance) : _name(name), _balance(balance)
 {
     _accountNumber = _generator++;
+    std::cout << "Account(const std::string &name, float balance)" << std::endl;
 }
 
-Account::~Account() {}
+Account::~Account()
+{
+    std::cout << "~Account()" << std::endl;
+}
 
 const std::string &Account::GetName() const
 {
