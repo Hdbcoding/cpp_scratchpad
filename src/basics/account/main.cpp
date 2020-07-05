@@ -2,11 +2,17 @@
 #include "savings.h"
 #include "checking.h"
 #include <iostream>
+#include <typeinfo>
 
 void Report(const Account &a)
 {
     std::cout << a.GetName() << ": " << a.GetAccountNo() << ": " << a.GetBalance() << std::endl;
 }
+
+class A {
+};
+class B : public A {
+};
 
 int main()
 {
@@ -31,4 +37,12 @@ int main()
     c->Withdraw(5);
     Report(*c);
     delete c;
+
+    std::cout << std::endl;
+
+    B bi;
+    std::cout << typeid(bi).name() << std::endl;
+
+    A *ap = &bi;
+    std::cout << typeid(*ap).name() << std::endl;
 }
