@@ -4,6 +4,8 @@
 #include <vector>
 #include <random>
 #include "TestClass.hpp"
+#include "LeakyClass.hpp"
+#include "NotLeakyClass.hpp"
 
 void ProcessRecordsMalloc(int count)
 {
@@ -100,7 +102,8 @@ void innerExceptions(int count)
         {
             errCount++;
             std::cout << "runtime error wow " << errCount << " " << ex.what() << std::endl;
-            if (errCount >= 5){
+            if (errCount >= 5)
+            {
                 std::runtime_error err{"too many errors, quitting"};
                 // modify and re-throw original exception
                 ex = err;
@@ -160,6 +163,12 @@ int main()
     reportExceptions(UniquePtr);
     reportExceptions([] {
         innerExceptions(50);
+    });
+    reportExceptions([] {
+        new LeakyClass();
+    });
+    reportExceptions([] {
+        new NotLeakyClass();
     });
 
     return 0;
