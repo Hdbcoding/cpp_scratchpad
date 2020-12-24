@@ -16,6 +16,7 @@ void demonstrateRawStrings()
 
 void write(const std::string &filename)
 {
+    std::cout << "writing to file " << filename << std::endl;
     std::ofstream out{filename};
     // or out.open(filename)
 
@@ -28,7 +29,36 @@ void write(const std::string &filename)
     out << "Hello world" << std::endl;
     out << 10 << std::endl;
 
+    std::string m2{"here's another message"};
+    for (char ch : m2)
+        out.put(ch);
+
+    out.seekp(5, std::ios::beg);
+    out.put('#');
+
     out.close();
+}
+
+void copy(const std::string &src, const std::string &dest)
+{
+    std::cout << "attempting to copy " << src << " to " << dest << std::endl;
+    std::ifstream in{src};
+    if (!in)
+    {
+        std::cout << "could not open " << src << std::endl;
+        return;
+    }
+
+    std::ofstream out{dest};
+    std::string line;
+    while (!std::getline(in, line).eof())
+    {
+        out << line << std::endl;
+    }
+    in.close();
+    out.close();
+
+    std::cout << "finished copying " << src << " to " << dest << std::endl;
 }
 
 bool checkIfStreamState(const std::ifstream &in)
@@ -58,10 +88,12 @@ bool checkIfStreamState(const std::ifstream &in)
         std::cout << "some io operation failed" << std::endl;
         return false;
     }
+    return false;
 }
 
 void read(const std::string &filename)
 {
+    std::cout << "reading from file " << filename << std::endl;
     std::ifstream in{filename};
     // or in.open(filename)
 
@@ -70,23 +102,106 @@ void read(const std::string &filename)
         return;
     }
 
+    in.seekg(5, std::ios::beg);
+    std::cout << "current stream position: " << in.tellg() << std::endl;
+
     std::string m;
     std::getline(in, m);
     int v{};
     in >> v;
-    in >> v;
+
+    std::cout << m << v << std::endl;
+
+    char ch{};
+    while (in.get(ch))
+        std::cout << ch;
+    std::cout << std::endl;
 
     checkIfStreamState(in);
 
     in.close();
+}
 
-    std::cout << m << v << std::endl;
+void editFileFstream(const std::string &filename)
+{
+    std::cout << "editing file " << filename << std::endl;
+    std::fstream fs{filename};
+    if (!fs)
+    {
+        std::cout << filename << " does not exist, creating..." << std::endl;
+        std::ofstream o{filename};
+        o.close();
+        fs.open(filename);
+    }
+
+    fs << "Hello world!" << std::endl;
+
+    std::string line;
+    fs.seekg(0, std::ios::beg);
+    std::getline(fs, line);
+    std::cout << line << std::endl;
+}
+
+void binaryFile()
+{
+    int num{12345678};
+
+    // as before, write the number as text data
+    std::ofstream out{"numTxt"};
+    out << num;
+
+    out.close();
+    out.clear();
+
+    // alternatively, write the number as binary data
+    out.open("numBin", std::ios::binary | std::ios::out);
+    out.write((const char *)&num, sizeof(num));
+    out.close();
+
+    int num2{0};
+    std::ifstream in{"numBin", std::ios::binary | std::ios::in};
+    in.read((char *)&num2, sizeof(num2));
+    in.close();
+
+    std::cout << num2 << std::endl;
+}
+
+struct Record
+{
+    int id;
+    char name[10];
+};
+
+void writeRecord(const Record *p, const std::string &filename)
+{
+    std::cout << "writing record for " << p->name << " to file " << filename << std::endl;
+    std::ofstream out{filename, std::ios::binary | std::ios::out};
+    out.write((const char *)p, sizeof(Record));
+}
+
+void readRecord(const std::string &filename)
+{
+    std::cout << "reading record from " << filename << std::endl;
+    std::ifstream in{filename, std::ios::binary | std::ios::in};
+    Record r;
+    in.read((char *)&r, sizeof(Record));
+    std::cout << r.id << ": " << r.name << std::endl;
 }
 
 int main()
 {
     demonstrateRawStrings();
     std::string filename{"data.txt"};
-    write(filename);
-    read(filename);
+    write("data.txt");
+    read("data.txt");
+    copy("data1.txt", "data2.txt");
+    copy("data.txt", "data2.txt");
+    editFileFstream("data3.txt");
+    binaryFile();
+
+    Record r{1234, "bob"};
+    writeRecord(&r, "bob");
+    readRecord("bob");
+
+    return 0;
 }
