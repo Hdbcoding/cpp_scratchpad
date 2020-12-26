@@ -5,8 +5,11 @@
             "name": "(gdb) launch active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
-            "args": [],
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [
+                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\dataSrc.txt",
+                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\dataDest.txt"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

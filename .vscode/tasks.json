@@ -13,7 +13,8 @@
                 "${fileDirname}\\*.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-static-libstdc++"
+                "-static-libstdc++",
+                "-std=c++17"
             ],
             "options": {
                 "cwd": "C:\\MinGW\\bin"
