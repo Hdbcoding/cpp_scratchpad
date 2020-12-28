@@ -165,8 +165,8 @@ int main()
     std::cout << "method constructed by pointer " << m(2.5, 2) << std::endl;
 
     // the following only prints the correct result because of the explicit specialization for const char *
-    const char *b{"B"};
-    const char *a{"A"};
+    const char *b{"BCD"};
+    const char *a{"ABC"};
     auto s = max(a, b);
     std::cout << "max of " << a << " and " << b << ": " << s << std::endl;
 
@@ -179,15 +179,15 @@ int main()
     std::cout << "minmax " << result2.first << ":" << result2.second << std::endl;
 
     std::cout << "array of c-style strings" << std::endl;
-    const char *arr3[]{"E", "D", "C", "B", "A"};
+    const char *arr3[]{"EFG", "DEF", "CDE", "BCD", "ABC"};
     std::cout << "sum " << sum(arr3) << std::endl;
     std::cout << "max " << max(arr3) << std::endl;
     auto result3 = minMax(arr3);
     std::cout << "minmax " << result3.first << ":" << result3.second << std::endl;
 
     std::cout << "c++ strings" << std::endl;
-    std::string strA{"A"};
-    std::string strB{"B"};
+    std::string strA{"ABC"};
+    std::string strB{"BCD"};
     std::cout << "sum " << add(strA, strB) << std::endl;
     // std::cout << "min " << min(strA, strB) << std::endl;
 
