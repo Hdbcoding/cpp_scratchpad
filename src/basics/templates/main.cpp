@@ -8,10 +8,6 @@ T max(T x, T y)
     return x > y ? x : y;
 }
 
-// force compiler to generate a particular type of the above template method:
-// explicit instantiation
-template char max(char x, char y);
-
 template <typename T>
 T min(T x, T y)
 {
@@ -59,6 +55,10 @@ std::pair<T, T> minMax(T *arr, int arrSize)
 
     return result;
 }
+
+// force compiler to generate a particular type of the above template method:
+// explicit instantiation
+template char max(char x, char y);
 
 // explicit specialization
 template<> const char * max(const char *x, const char *y){
