@@ -11,11 +11,11 @@ T max(T x, T y)
 }
 
 // // explicit specialization
-// template <>
-// const char *max(const char *x, const char *y)
-// {
-//     return strcmp(x, y) > 0 ? x : y;
-// }
+template <>
+const char *max(const char *x, const char *y)
+{
+    return strcmp(x, y) > 0 ? x : y;
+}
 
 // max for an array with array size specified
 template <typename T>
@@ -51,11 +51,11 @@ T min(T x, T y)
     return x > y ? y : x;
 }
 
-// template <>
-// const char *min(const char *x, const char *y)
-// {
-//     return strcmp(x, y) < 0 ? x : y;
-// }
+template <>
+const char *min(const char *x, const char *y)
+{
+    return strcmp(x, y) < 0 ? x : y;
+}
 
 #pragma endregion min
 
@@ -99,16 +99,6 @@ T add(T x, T y)
     return x + y;
 }
 
-// template <>
-// const char *add(const char *x, const char *y)
-// {
-//     // with c-style strings, I'm doing dynamic memory allocation to add the strings!
-//     char *result = (char *)malloc((strlen(x) + strlen(y)) * sizeof(char));
-//     strcpy(result, x);
-//     strcat(result, y);
-//     return result;
-// }
-
 template <typename T>
 T sum(T *arr, int arrSize)
 {
@@ -131,32 +121,34 @@ T sum(T (&arr)[size])
     return result;
 }
 
-// // due to dynamic memory allocation, summing array of strings requires a little extra work
-// template<int size>
-// const char * sum(const char *(&arr)[size])
-// {
-//     char *result = (char *)malloc(size * sizeof(char));
-//     strcpy(result, arr[0]);
-//     char *temp{};
-//     for (int i = 1; i < size; ++i)
-//     {
-//         temp = result;
-//         result = (char *)add<const char *>(result, arr[i]);
-//         free(temp);
-//     }
-//     return result;
-// }
+// due to dynamic memory allocation, summing array of strings requires a little extra work
+template <int size>
+const char *sum(const char *(&arr)[size])
+{
+    int totalSize = 0;
+    for (int i = 0; i < size; ++i)
+    {
+        totalSize += strlen(arr[i]);
+    }
+
+    char *result = (char *)malloc(totalSize * sizeof(char));
+    for (int i = 0; i < size; ++i)
+    {
+        strcat(result, arr[i]);
+    }
+    return result;
+}
 
 #pragma endregion add
 
-
-
 int main()
 {
+    std::cout << "simple integers" << std::endl;
     std::cout << "max " << max(1, 2) << std::endl;
     std::cout << "min " << min(1, 2) << std::endl;
     std::cout << "add " << add(1, 2) << std::endl;
 
+    std::cout << "array of integers" << std::endl;
     int arr[]{1, 2, 3, 4, 5};
     std::cout << "sum " << sum(arr, 5) << std::endl;
     std::cout << "max " << max(arr, 5) << std::endl;
@@ -186,11 +178,18 @@ int main()
     auto result2 = minMax(arr2);
     std::cout << "minmax " << result2.first << ":" << result2.second << std::endl;
 
+    std::cout << "array of c-style strings" << std::endl;
     const char *arr3[]{"E", "D", "C", "B", "A"};
     std::cout << "sum " << sum(arr3) << std::endl;
     std::cout << "max " << max(arr3) << std::endl;
     auto result3 = minMax(arr3);
     std::cout << "minmax " << result3.first << ":" << result3.second << std::endl;
+
+    std::cout << "c++ strings" << std::endl;
+    std::string strA{"A"};
+    std::string strB{"B"};
+    std::cout << "sum " << add(strA, strB) << std::endl;
+    // std::cout << "min " << min(strA, strB) << std::endl;
 
     // // all of a sudden, if I add a test case for std::string, I can't compile because the templates are ambiguous
     // std::string arr4[5] {"E", "D", "C", "B", "A"};
@@ -198,7 +197,6 @@ int main()
     // std::cout << "max " << max(arr4) << std::endl;
     // auto result4 = minMax(arr4);
     // std::cout << "minmax " << result4.first << ":" << result4.second << std::endl;
-
 
     return 0;
 }
