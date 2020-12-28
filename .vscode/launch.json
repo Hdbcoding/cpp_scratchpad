@@ -7,8 +7,8 @@
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [
-                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\dataSrc.txt",
-                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\dataDest.txt"
+                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\many files",
+                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\many files copy"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

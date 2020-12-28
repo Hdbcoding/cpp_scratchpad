@@ -67,10 +67,45 @@ void copyFile(const std::string &src, const std::string &dest)
     std::ofstream out{dest, std::ios::out | std::ios::binary};
     if (!out)
         throw std::runtime_error("could not open dest file");
-        
+
     copyChunks(in, out, length);
 
     std::cout << "finished copying file " << src << " to " << dest << std::endl;
+}
+
+void copyDirectory(const std::string &src, const std::string &dest)
+{
+    auto found = dest.find('.');
+    if (found != std::string::npos)
+        throw std::runtime_error("copying to output directory, but it looks like a file path");
+
+    bool outExists = std::filesystem::exists(dest);
+    if (!outExists)
+        std::filesystem::create_directory(dest);
+
+    std::cout << "Copying all direct child files of " << src << " to " << dest << std::endl;
+    for (auto &p : std::filesystem::directory_iterator(src))
+    {
+        if (p.is_regular_file())
+        {
+            std::filesystem::path dDir{dest};
+            std::filesystem::path filename{p.path().filename()};
+            std::filesystem::path dPath = dDir / filename;
+
+            try
+            {
+                copyFile(p.path().string(), dPath.string());
+            }
+            catch (std::runtime_error ex)
+            {
+                std::cout << "error copying " << p.path().string() << " to " << dPath.string() << ": " << ex.what() << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << p.path() << " is not a regular file, skipping" << std::endl;
+        }
+    }
 }
 
 void copy(const std::string &src, const std::string &dest)
@@ -80,12 +115,6 @@ void copy(const std::string &src, const std::string &dest)
     // check if input exists - complain if does not
     if (!std::filesystem::exists(src))
         throw std::runtime_error("input file or directory does not exist");
-
-    // not supporting directory copy yet, so check for directory
-    if (std::filesystem::is_directory(src))
-        throw std::runtime_error("input is a directory");
-
-    copyFile(src, dest);
 
     // copy cases:
     // inFile to outFile
@@ -98,10 +127,30 @@ void copy(const std::string &src, const std::string &dest)
     //   - must copy inFile.filename to end of outDirectory
     //   - must complain if outDirectory/inFile.filename exists
     // inDirectory to outFile
-    //   - ERROR
+    //   - treat dest as directory
     // inDirectory to outDirectory
     //   - iterate over each file of inDirectory (recursively?)
     //   - copy inFile to outFile
+
+    bool inFile = std::filesystem::is_regular_file(src);
+    bool inDirectory = std::filesystem::is_directory(src);
+    bool outExists = std::filesystem::exists(dest);
+    bool outDirectory = std::filesystem::is_directory(dest);
+
+    if (!inFile && !inDirectory)
+        throw std::runtime_error("input src is not regular file or directory");
+
+    if (outExists && !outDirectory)
+        throw std::runtime_error("output file already exists");
+
+    if (inDirectory)
+    {
+        copyDirectory(src, dest);
+    }
+    else
+    {
+        copyFile(src, dest);
+    }
 
     std::cout << "finished copying " << src << " to " << dest << std::endl;
 }
@@ -122,7 +171,14 @@ int main(int argc, char **argv)
 
     std::cout << "src: " << src << "; dest: " << dest << std::endl;
 
-    copy(src, dest);
+    try
+    {
+        copy(src, dest);
+    }
+    catch (std::runtime_error ex)
+    {
+        std::cout << "exception thrown during copy: " << ex.what() << std::endl;
+    }
 
     return 0;
 }
