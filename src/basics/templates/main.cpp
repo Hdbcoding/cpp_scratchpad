@@ -185,18 +185,40 @@ int main()
     auto result3 = minMax(arr3);
     std::cout << "minmax " << result3.first << ":" << result3.second << std::endl;
 
+    // // all of a sudden, if I add a test case for std::string, I can't compile because the templates are ambiguous
     std::cout << "c++ strings" << std::endl;
     std::string strA{"ABC"};
     std::string strB{"BCD"};
     std::cout << "sum " << add(strA, strB) << std::endl;
+    // add is ok, but min/max cause issues
     // std::cout << "min " << min(strA, strB) << std::endl;
 
-    // // all of a sudden, if I add a test case for std::string, I can't compile because the templates are ambiguous
-    // std::string arr4[5] {"E", "D", "C", "B", "A"};
-    // std::cout << "sum " << sum(arr4) << std::endl;
+    std::string arr4[5] {"EFG", "DEF", "CDE", "BCD", "ABC"};
+    std::cout << "sum " << sum(arr4) << std::endl;
     // std::cout << "max " << max(arr4) << std::endl;
     // auto result4 = minMax(arr4);
     // std::cout << "minmax " << result4.first << ":" << result4.second << std::endl;
+
+    // Current total output:
+    // max 5
+    // minmax 1:5
+    // specify float 2.3
+    // method constructed by pointer 2.5
+    // max of ABC and BCD: BCD
+    // using non-type template arguments to specify array size:
+    // sum 15
+    // max 5
+    // minmax 1:5
+    // array of c-style strings
+    // sum
+    // 2
+    // �
+    // ����������EFGDEFCDEBCDABC
+    // max EFG
+    // minmax ABC:EFG
+    // c++ strings
+    // sum ABCBCD
+    // sum EFGDEFCDEBCDABC
 
     return 0;
 }
