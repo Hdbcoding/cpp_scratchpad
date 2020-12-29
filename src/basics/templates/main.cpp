@@ -132,7 +132,11 @@ const char *sum(const char *(&arr)[size])
     }
 
     char *result = (char *)malloc(totalSize * sizeof(char));
-    for (int i = 0; i < size; ++i)
+    // new char is also fine
+    // char *result = new char[totalSize];
+    // first has to be strcpy, or could do something like a strcpy(result, "\0")
+    strcpy(result, arr[0]);
+    for (int i = 1; i < size; ++i)
     {
         strcat(result, arr[i]);
     }
