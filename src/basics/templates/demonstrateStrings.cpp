@@ -1,9 +1,10 @@
 #include <iostream>
-#include "demonstrateStrings.hpp"
 #include "getMin.hpp"
 #include "getMax.hpp"
 #include "getMinMax.hpp"
 #include "getSum.hpp"
+#include "printArray.hpp"
+#include "demonstrateStrings.hpp"
 
 void demonstrateStrings() {
     std::cout << std::endl << "operations on c style strings" << std::endl;
@@ -19,6 +20,7 @@ void demonstrateStrings() {
 
     std::cout << "operations on arrays of c-style strings" << std::endl;
     const char *arr[] {"EFG", "DEF", "CDE", "BCD", "ABC"};
+    printArray(arr);
     std::cout << "sum " << getSum(arr) << std::endl;
     std::cout << "min " << getMin(arr) << std::endl;
     std::cout << "max " << getMax(arr) << std::endl;
@@ -35,6 +37,7 @@ void demonstrateStrings() {
 
     std::cout << "operations on arrays of c++ stl strings" << std::endl;
     std::string arr2[5] {"EFG", "DEF", "CDE", "BCD", "ABC"};
+    printArray(arr2);
     std::cout << "sum " << getSum(arr2) << std::endl;
     std::cout << "max " << getMin(arr2) << std::endl;
     std::cout << "max " << getMax(arr2) << std::endl;
