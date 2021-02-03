@@ -6,16 +6,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "args": [
-                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\many files",
-                "G:\\Personal_Projects\\cpp_scratchpad\\src\\basics\\copyFile\\many files copy"
-            ],
+            "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "C:\\Mingw-w64\\mingw-w64-8.1.0-x86_x64\\mingw64\\bin\\",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
+            "miDebuggerPath": "C:\\Mingw-w64\\mingw-w64-8.1.0-x86_x64\\mingw64\\bin\\gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -23,7 +20,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "g++ build active file"
+            "preLaunchTask": "build active files"
         }
     ]
 }
