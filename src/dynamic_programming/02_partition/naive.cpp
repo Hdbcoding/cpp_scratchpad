@@ -3,23 +3,19 @@
 
 using namespace std;
 
-int recursive(const vector<int> &nums, int currentSum, int targetSum, int index)
+int recursive(const vector<int> &nums, int sum, int index)
 {
-    if (currentSum == targetSum)
-        return currentSum;
+    if (sum == 0)
+        return true;
 
-    if (currentSum > targetSum || index >= nums.size())
-        return 0;
+    if (sum < 0 || index >= nums.size())
+        return false;
 
-    if (nums[index] + currentSum == targetSum)
-        return targetSum;
+    if (nums[index] == sum)
+        return true;
 
-    int sumWith = 0;
-    if (nums[index] + currentSum < targetSum)
-        sumWith = recursive(nums, currentSum + nums[index], targetSum, index + 1);
-
-    int sumWithout = recursive(nums, currentSum, targetSum, index + 1);
-    return max(sumWith, sumWithout);
+    // either try adding this element, or don't
+    return recursive(nums, sum - nums[index], index + 1) || recursive(nums, sum, index + 1);
 }
 
 bool naive::canPartition(const vector<int> &nums){
@@ -29,9 +25,5 @@ bool naive::canPartition(const vector<int> &nums){
 
     if (sum % 2 == 1)
         return false;
-
-    sum /= 2;
-
-    int closestSum = recursive(nums, 0, sum, 0);
-    return closestSum == sum;
+    return recursive(nums, sum / 2, 0);
 }

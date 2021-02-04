@@ -41,5 +41,5 @@ void test(int cycles, int problemSize, const string &name)
 
 int main()
 {
-    test<naive>(20, 25, "naive recursive");
+    test<naive>(1000, 10000, "naive recursive");
 }
