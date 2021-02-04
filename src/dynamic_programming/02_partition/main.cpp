@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
+#include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -25,7 +27,7 @@ void test(int cycles, int problemSize, const string &name)
     cout << "verify simple case: " << solver.canPartition(nums) << endl;
 
     default_random_engine dre(t1.time_since_epoch().count());
-    uniform_int_distribution<int> di(1, 100);
+    uniform_int_distribution<int> di(1, 15);
 
     nums.assign(problemSize, 0);
     while (cycles-- > 0)
@@ -41,5 +43,12 @@ void test(int cycles, int problemSize, const string &name)
 
 int main()
 {
+    // o(2 ^ n)
     test<naive>(1000, 10000, "naive recursive");
+
+    // o(n * s) <- depends on s
+    // actually much slower than naive, oddly enough
+    //   might be a side effect of my number generation
+    test<memoization>(1000, 100, "memoized recursive");
+    test<bottomup>(1000, 100, "bottom-up dp");
 }
