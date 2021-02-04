@@ -6,6 +6,8 @@
 #include "naive.hpp"
 #include "memotable.hpp"
 #include "dptable.hpp"
+#include "tworowdptable.hpp"
+#include "onerowdp.hpp"
 
 using namespace std;
 
@@ -46,5 +48,7 @@ int main()
 {
     test<naive>(20, 23, "naive recursive");
     test<memotable>(100, 50, "memo recursive");
-    test<memotable>(100, 50, "dp iterative");
+    test<dptable>(100, 50, "dp iterative");
+    test<tworowdptable>(100, 100, "two-row dp iterative");
+    test<onerowdp>(100, 100, "one-row dp iterative");
 }

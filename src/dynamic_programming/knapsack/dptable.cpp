@@ -21,7 +21,7 @@ int dptable::solveKnapsack(const vector<int> &profits, const vector<int> &weight
         for (int c = 1; c <= capacity; ++c)
         {
             int profitWith = 0;
-            if (weights[i] < c)
+            if (weights[i] <= c)
                 profitWith = profits[i] + dp[i - 1][c - weights[i]];
 
             int profitWithout = dp[i - 1][c];
