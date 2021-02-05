@@ -5,7 +5,8 @@
 #include <random>
 #include "naiveslow.hpp"
 #include "naive.hpp"
-// #include "memoization.hpp"
+#include "memoizationslow.hpp"
+#include "memoization.hpp"
 // #include "bottomup.hpp"
 // #include "singlerow.hpp"
 
@@ -50,14 +51,17 @@ void test(int cycles, int problemSize, const string &name)
 int main()
 {
     // o(2 ^ n) - quite a bit slower than partition and subsetsum because this solution explores the whole tree
-    test<naiveslow>(100, 20, "naive recursive");
+    test<naiveslow>(100, 20, "naive recursive - slow version");
+    // when you're exploring the entire recursive tree, memoization provides a real improvement
+    test<memoizationslow>(100, 100, "memoized recursive for slow version");
+
     // like the partition and subsetsum solutions, this skips most of the recursive tree if it finds a solution early
     test<naive>(1000, 10000, "naive recursive");
 
     // o(n * s) <- depends on s
     // actually much slower than naive, oddly enough
     //   might be a side effect of my number generation
-    // test<memoization>(1000, 100, "memoized recursive");
+    test<memoization>(100, 100, "memoized recursive");
     // test<bottomup>(1000, 100, "bottom-up dp");
     // test<singlerow>(1000, 1000, "single-row dp");
 }
