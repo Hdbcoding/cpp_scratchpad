@@ -51,6 +51,7 @@ int main()
 {
     // o(2 ^ n) - quite a bit slower than partition and subsetsum because this solution explores the whole tree
     test<naiveslow>(100, 20, "naive recursive");
+    // like the partition and subsetsum solutions, this skips most of the recursive tree if it finds a solution early
     test<naive>(1000, 10000, "naive recursive");
 
     // o(n * s) <- depends on s
