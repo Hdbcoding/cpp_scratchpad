@@ -7,8 +7,7 @@
 #include "naive.hpp"
 #include "memoizationslow.hpp"
 #include "memoization.hpp"
-// #include "bottomup.hpp"
-// #include "singlerow.hpp"
+#include "dpslow.hpp"
 
 using namespace std;
 
@@ -54,14 +53,12 @@ int main()
     test<naiveslow>(100, 20, "naive recursive - slow version");
     // when you're exploring the entire recursive tree, memoization provides a real improvement
     test<memoizationslow>(100, 100, "memoized recursive for slow version");
+    test<dpslow>(100, 100, "dp for the slow version");
 
     // like the partition and subsetsum solutions, this skips most of the recursive tree if it finds a solution early
     test<naive>(1000, 10000, "naive recursive");
-
     // o(n * s) <- depends on s
     // actually much slower than naive, oddly enough
     //   might be a side effect of my number generation
     test<memoization>(100, 100, "memoized recursive");
-    // test<bottomup>(1000, 100, "bottom-up dp");
-    // test<singlerow>(1000, 1000, "single-row dp");
 }
