@@ -7,6 +7,12 @@
 
 using namespace std;
 
+// fibonacci - calculated in many different ways
+// f(n) = f(n - 1) + f(n - 2)
+// calculated from the top down you get a horrific exponential runtime
+// runtime can be saved with memoization or dynamic programming
+//  ... or, you could use 3 variables and save on space as well
+
 typedef chrono::high_resolution_clock _clock;
 
 template <class tfib>
