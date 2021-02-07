@@ -11,15 +11,6 @@ using namespace std;
 
 typedef chrono::high_resolution_clock _clock;
 
-struct settings
-{
-    int cycles;
-    int problemSize;
-    int weightCap{25};
-    int profitCap{500};
-    int capacityCap{200};
-};
-
 // unbounded knapsack
 // given a set of items with { weight, value }
 // fill a knapsack with a given capacity with as much value as possible
@@ -38,6 +29,15 @@ struct settings
 //     don't include this: dp[i - 1][c] -- if i > 0
 //     include this: dp[i][c - weight[i]] -- if c >= weight[i]
 //   dp[i][c] = max(dp[i - 1][c], profit[i] + dp[c - weight[i]])
+
+struct settings
+{
+    int cycles;
+    int problemSize;
+    int weightCap{25};
+    int profitCap{500};
+    int capacityCap{200};
+};
 
 template <class t>
 void test(const settings &s, const string &name)
