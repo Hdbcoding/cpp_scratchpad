@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
+#include "memoization.hpp"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ struct settings
 {
     int cycles;
     int problemSize;
-    int priceCap{25};
+    int priceCap{500};
     int lengthCap{200};
 };
 
@@ -81,5 +82,6 @@ void test(const settings &s, const string &name)
 
 int main()
 {
-    test<naive>({100, 8, 500, 100}, "naive recursive");
+    test<naive>({100, 10, 500, 75}, "naive recursive");
+    test<memoization>({1000, 100}, "memoization recursive");
 }
