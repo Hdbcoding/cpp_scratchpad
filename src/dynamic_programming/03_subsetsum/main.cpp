@@ -12,6 +12,10 @@ using namespace std;
 
 typedef chrono::high_resolution_clock _clock;
 
+// subset sum
+//   given a set of positive integers, does there exist a subest with a given sum?
+// essentially the same algorithm as equal subset sum partition, but with a specific target sum instead of totalSum / 2
+
 template <class t>
 void test(int cycles, int problemSize, const string &name)
 {

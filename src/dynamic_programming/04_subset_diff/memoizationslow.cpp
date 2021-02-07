@@ -20,7 +20,7 @@ int recursiveSlow(const vector<int> &nums, int sum1, int sum2, int index, vector
     return memo[index][sum1];
 }
 
-bool memoizationslow::canPartition(const vector<int> &nums, int diff)
+int memoizationslow::canPartition(const vector<int> &nums)
 {
     int sum = 0;
     for (int i : nums)
@@ -28,5 +28,5 @@ bool memoizationslow::canPartition(const vector<int> &nums, int diff)
 
     vector<vector<int>> memo(nums.size(), vector<int>(sum + 1, -1));
 
-    return recursiveSlow(nums, 0, 0, 0, memo) <= diff;
+    return recursiveSlow(nums, 0, 0, 0, memo);
 }

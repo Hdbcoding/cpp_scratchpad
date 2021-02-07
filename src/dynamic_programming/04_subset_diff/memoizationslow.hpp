@@ -2,5 +2,5 @@
 
 struct memoizationslow
 {
-    bool canPartition(const std::vector<int> &nums, int diff);
+    int canPartition(const std::vector<int> &nums);
 };

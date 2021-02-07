@@ -16,7 +16,7 @@ int recursiveSlow(const vector<int> &nums, int sum1, int sum2, int index)
     return min(diff1, diff2);
 }
 
-bool naiveslow::canPartition(const vector<int> &nums, int diff)
+int naiveslow::canPartition(const vector<int> &nums)
 {
-    return recursiveSlow(nums, 0, 0, 0) <= diff;
+    return recursiveSlow(nums, 0, 0, 0);
 }

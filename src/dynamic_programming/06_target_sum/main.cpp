@@ -22,7 +22,7 @@ typedef chrono::high_resolution_clock _clock;
 // if we're clever we can do some math, and find that we're trying to find a sumset whose size is:
 //    (totalSum + targetSum) / 2
 //    (failing if this total < target or isOdd(total + target))
-//    then we can use the same algorithm as subsetSum
+//    then we can use the same algorithm as subsetsum_count, trying to find subsets of size (total + target) / 2
 
 template <class t>
 void test(int cycles, int problemSize, const string &name)

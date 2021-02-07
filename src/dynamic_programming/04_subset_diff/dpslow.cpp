@@ -4,22 +4,23 @@
 
 using namespace std;
 
-bool dpslow::canPartition(const vector<int> &nums, int diff)
+int dpslow::canPartition(const vector<int> &nums)
 {
     int sum = 0;
     for (int i = 0; i < nums.size(); i++) {
       sum += nums[i];
     }
 
+    // dp table that records what subset sizes we can construct 
     vector<vector<bool>> dp(nums.size(), vector<bool>(sum / 2 + 1, false));
 
-    // target sum == 0 ? true
+    // can always construct the empty set
     for (int i = 0; i < nums.size(); ++i)
         dp[i][0] = true;
 
-    // target sum == num ? true
-    for (int s = 1; s <= sum / 2; ++s)
-        dp[0][s] = (nums[0] == s ? true : false);
+    // we can construct a subset of only the first item
+    if (nums[0] <= sum / 2)
+        dp[0][nums[0]] = true;
 
     for (int i = 1; i < nums.size(); ++i)
     {
@@ -36,6 +37,7 @@ bool dpslow::canPartition(const vector<int> &nums, int diff)
         }
     }
 
+    // what is the biggest subset we can construct?
     int sum1 = 0;
     for (int s = sum / 2; s >= 0; --s)
         if (dp[nums.size() - 1][s])
@@ -45,5 +47,5 @@ bool dpslow::canPartition(const vector<int> &nums, int diff)
         }
 
     int sum2 = sum - sum1;
-    return abs(sum2 - sum1) <= diff;
+    return abs(sum2 - sum1);
 }
