@@ -5,6 +5,7 @@
 #include <random>
 #include "naive.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -19,6 +20,25 @@ typedef chrono::high_resolution_clock _clock;
 //   if I have gotten to 0 money, return numUsed
 //   if I am out of coins or have negative money, return 0 (this way doesn't work)
 //   return the lesser of using this coin or skipping this coin, following the unbounded knapsack pattern
+
+// note to self - this pattern of pushing down the numUsed works here
+// but when we convert to memoization, we can't push values down like this
+//   results need to trickle up from the bottom, not get pushed down from the top
+
+// so, to solve that problem:
+//   if I have 0 money, return 0
+//   if i have pushed past all of the coins, I didn't find a combo at all - return int--max
+//   when checking useThisCoin, if there is a combination (e.g. result < int max), add 1 to it
+//   return the min of useThisCoin, skipThisCoin
+
+// dynamic programming:
+//   dp[i][a] = minimum number of coins needed for coins 0:i to produce value of a
+// instantiation: dp = int[values.size()][amount + 1] <- all values set to int max
+// initialization:
+//   dp[i][0] = 0 <- takes 0 coins to produce a total amount of 0
+// induction:
+//   use this coin: dp[i][a - value[i] + 1]
+//   skip this coin: dp[i - 1][a]
 
 struct settings
 {
@@ -78,4 +98,5 @@ int main()
 {
     test<naive>({1000, 70, 500, 100}, "naive recursive");
     test<memoization>({1000, 100}, "memoization recursive");
+    test<bottomup>({1000, 100}, "bottom-up dynamic programming");
 }
