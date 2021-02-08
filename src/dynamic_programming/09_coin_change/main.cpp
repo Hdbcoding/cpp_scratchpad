@@ -5,6 +5,7 @@
 #include <random>
 #include "naive.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -86,4 +87,5 @@ int main()
 {
     test<naive>({1000, 70, 500, 100}, "naive recursive");
     test<memoization>({1000, 100}, "memoization recursive");
+    test<bottomup>({1000, 100}, "bottom-up dynamic programming");
 }
