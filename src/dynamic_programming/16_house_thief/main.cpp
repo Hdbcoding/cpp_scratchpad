@@ -6,31 +6,31 @@
 #include "naive.hpp"
 #include "memoization.hpp"
 #include "bottomup.hpp"
+#include "novector.hpp"
 
 using namespace std;
 
 typedef chrono::high_resolution_clock _clock;
 
-// min jump with fee
-// you are given a staircase with n steps, where each step has a fee
-// you can jump 1, 2, or 3 steps from each step
-// what is the minimum fee to reach one beyond the last step?
+// house thief
+// given a set of positive integers representing the possible loot in a row of houses
+// and the restriction that you can't steal from two houses in a row
+// how should a thief rob the neighborhood to maximize their loot?
 
-// recursively - like fibonacci
-// if at or above top, return 0
-// otherwise, return min(recurse(n + 1), recurse(n + 2), recurse(n + 3)) + cost(n)
+// recursively
+//   if I'm past the last house, return 0
+//   return max(loot[i] + recurse(i + 2), recurse(i + 1))
 
 // dynamic programming
-// dp[i] = min cost to get to jump i
-// instantiation: dp = int[n]
-// initialization: dp[0] = 0
-// induction: dp[i] = min(dp[i - 3] + cost[i - 3], dp[i - 2] + cost[i - 2], dp[i - 1] + cost[i - 1])
+// instantiation: dp = int[loot.size() + 1]
+// initialization: dp[1] = loot[0]
+// induction: dp[i + 1] = max(dp[i-1] + loot[i], dp[i])
 
 struct settings
 {
     int cycles;
     int problemSize;
-    int costCap{15};
+    int lootCap{15};
 };
 
 template <class t>
@@ -41,24 +41,24 @@ void test(const settings &s, const string &name)
     t solver;
     auto t1 = _clock::now();
 
-    vector<int> cost{1, 2, 5, 2, 1, 2};
-    cout << "verify simple case: " << solver.minCost(cost) << endl;
-    cost = {2, 3, 4, 5};
-    cout << "verify simple case: " << solver.minCost(cost) << endl;
+    vector<int> loot{2, 5, 1, 3, 6, 2, 4};
+    cout << "verify simple case: " << solver.maxLoot(loot) << endl;
+    loot = {2, 10, 14, 8, 1};
+    cout << "verify simple case: " << solver.maxLoot(loot) << endl;
 
     default_random_engine dre(t1.time_since_epoch().count());
-    uniform_int_distribution<int> di_cost(0, s.costCap);
+    uniform_int_distribution<int> di_loot(0, s.lootCap);
 
     int cycles = s.cycles;
     float progress = 0;
     float increment = 1.0 / cycles;
     int width = 25;
-    cost.assign(s.problemSize, 0);
+    loot.assign(s.problemSize, 0);
     while (cycles-- > 0)
     {
-        generate(cost.begin(), cost.end(), [&] { return di_cost(dre); });
+        generate(loot.begin(), loot.end(), [&] { return di_loot(dre); });
 
-        solver.minCost(cost);
+        solver.maxLoot(loot);
 
         cout << int(progress * 100.0) << "% - ";
         int pwidth = progress * width;
@@ -78,7 +78,8 @@ void test(const settings &s, const string &name)
 
 int main()
 {
-    test<naive>({100, 25}, "naive recursive");
+    test<naive>({100, 30}, "naive recursive");
     test<memoization>({1000, 2000}, "memoization recursive");
     test<bottomup>({1000, 2000}, "bottomup dynamic programming");
+    test<novector>({1000, 2000}, "memory optimized dynamic programming");
 }
