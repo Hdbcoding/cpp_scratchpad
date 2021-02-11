@@ -44,7 +44,7 @@ void test(const settings &s, const string &name)
     t solver;
     auto t1 = _clock::now();
 
-    vector<int> jumps{2,1,1,1,4};
+    vector<int> jumps{2, 1, 1, 1, 4};
     cout << "verify simple case: " << solver.minJumps(jumps) << endl;
     jumps = {1, 1, 3, 6, 9, 3, 0, 1, 3};
     cout << "verify simple case: " << solver.minJumps(jumps) << endl;
