@@ -5,27 +5,28 @@
 #include "naive.hpp"
 #include "memoization.hpp"
 #include "bottomup.hpp"
+#include "nodpn2.hpp"
 
 using namespace std;
 
 typedef chrono::high_resolution_clock _clock;
 
-// longest palindromic subsequence
-// given a string, find the longest palindromic subsequence of that string
-// a subsequence is a subset of the original string, not necessarily contiguous, in their original order
-// palindromic -> [0] == [n-1], [1] == [n-2], etc.
+// longest palindromic substring
+// like palindrome, but now the palindrome must be a contiguous substring
 
-// brute force solution
+// recursively
 // two pointers at the ends
-//  if [left] == [right] return recurse (left + 1, right - 1) + 2
-//  return max (recurse(left + 1, right), recurse(left, right - 1))
+// if (left > right) return 0
+// if (left == right) return 1
+// if [left] == [right], and recurse(left + 1, right - 1) == right - left - 1 is a palindrome, return right - left + 1;
+// return max(recurse(left + 1, right), recurse(left, right - 1))
 
 // dynamic programming
-// want to build up a table of tested subsequences
+// want to build up a table of tested substrings
 // instantiation: dp = int[s.size + 1][s.size + 1], all 0
-// initialization: dp[i][i] = 1 // every individual letter is a palindomic subsequence
+// initialization: dp[i][i] = 1 // every individual letter is a palindomic substring
 // induction:
-//    if st[i] = st[j]
+//    if st[i] = st[j] && (length of segment between i and j == dp[i + 1][j - 1])
 //       dp[i][j] = dp[i + 1]dp[j - 1] + 2
 //    else
 //       dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]
@@ -45,6 +46,7 @@ void test(const settings &s, const string &name)
     auto t1 = _clock::now();
 
     cout << "verify simple case: " << solver.maxPalindrome("abdba") << endl;
+    cout << "verify simple case: " << solver.maxPalindrome("abdbca") << endl;
     cout << "verify simple case: " << solver.maxPalindrome("cddpd") << endl;
     cout << "verify simple case: " << solver.maxPalindrome("pqr") << endl;
 
@@ -83,4 +85,5 @@ int main()
     test<naive>({100, 20}, "naive recursive");
     test<memoization>({500, 200}, "memoization recursive");
     test<bottomup>({500, 200}, "bottom-up dynamic programming");
+    test<nodpn2>({2000, 2000}, "no dynamic programming, iterative, O(n^2)");
 }
