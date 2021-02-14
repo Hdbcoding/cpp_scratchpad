@@ -3,39 +3,16 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
-#include "memoization.hpp"
-#include "bottomup.hpp"
-#include "onerow.hpp"
 
 using namespace std;
 
 typedef chrono::high_resolution_clock _clock;
 
-// longest common substring
+// longest common subsequence
 
-// naively, compare every substring of w1 to every substring of w2
-// return the biggest substring we see
+// recursively, same plan as longest common substring
+// except, we don't have to push down the length of the current substring
 
-// recursively, keep a pointer to the current index of each string
-// if (i1 == w1.size() || i2 == w2.size()) return 0
-// int lengthWith = 0; // length with current char
-// if w1[i1] == w2[i2]
-//   lengthWith = 1 + recursive(i1 + 1, i2 + 1)
-// int skip1 = recursive(i1 + 1, i2)
-// int skip2 = recursive(i1, i2 + 1)
-// return max(lengthWith, skip1, skip2)
-
-// dynamic programming
-//  dp[i][j] = maximum length of substring in w1 and w2 ending at w1[i], w2[j]
-//  (separately keep track of the max length seen so far)
-// instantiation: dp = int[w1.size() + 1][w2.size() + 1]
-// initialization: dp[0][j] = dp[i][0] = 0
-// induction:
-//   if (w1[i] == w2[j])
-//     dp[i][j] = 1 + dp[i-1][j-1]
-//   else
-//     dp[i][j] = 0
-//   maxLength = max(maxLength, dp[i][j])
 
 struct settings
 {
@@ -96,7 +73,4 @@ void test(const settings &s, const string &name)
 int main()
 {
     test<naive>({100, 14}, "naive recursive");
-    test<memoization>({100, 50}, "memoization recursive");
-    test<bottomup>({500, 200}, "bottom-up dynamic programming");
-    test<onerow>({500, 300}, "one-row dynamic programming");
 }
