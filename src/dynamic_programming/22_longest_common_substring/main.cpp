@@ -5,6 +5,7 @@
 #include "naive.hpp"
 #include "memoization.hpp"
 #include "bottomup.hpp"
+#include "onerow.hpp"
 
 using namespace std;
 
@@ -25,7 +26,8 @@ typedef chrono::high_resolution_clock _clock;
 // return max(lengthWith, skip1, skip2)
 
 // dynamic programming
-//  dp[i][j] = maximum length of substring in w1 and w2 for w1[0:i] w2[0:j]
+//  dp[i][j] = maximum length of substring in w1 and w2 ending at w1[i], w2[j]
+//  (separately keep track of the max length seen so far)
 // instantiation: dp = int[w1.size() + 1][w2.size() + 1]
 // initialization: dp[0][j] = dp[i][0] = 0
 // induction:
@@ -96,4 +98,5 @@ int main()
     test<naive>({100, 14}, "naive recursive");
     test<memoization>({100, 50}, "memoization recursive");
     test<bottomup>({500, 200}, "bottom-up dynamic programming");
+    test<onerow>({500, 200}, "one-row dynamic programming");
 }
