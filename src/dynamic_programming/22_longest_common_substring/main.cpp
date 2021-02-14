@@ -4,6 +4,7 @@
 #include <random>
 #include "naive.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -23,7 +24,16 @@ typedef chrono::high_resolution_clock _clock;
 // int skip2 = recursive(i1, i2 + 1)
 // return max(lengthWith, skip1, skip2)
 
-// 
+// dynamic programming
+//  dp[i][j] = maximum length of substring in w1 and w2 for w1[0:i] w2[0:j]
+// instantiation: dp = int[w1.size() + 1][w2.size() + 1]
+// initialization: dp[0][j] = dp[i][0] = 0
+// induction:
+//   if (w1[i] == w2[j])
+//     dp[i][j] = 1 + dp[i-1][j-1]
+//   else
+//     dp[i][j] = 0
+//   maxLength = max(maxLength, dp[i][j])
 
 struct settings
 {
@@ -83,6 +93,7 @@ void test(const settings &s, const string &name)
 
 int main()
 {
-    test<naive>({100, 12}, "naive recursive");
-    test<memoization>({100, 100}, "memoization recursive");
+    test<naive>({100, 14}, "naive recursive");
+    test<memoization>({100, 50}, "memoization recursive");
+    test<bottomup>({500, 200}, "bottom-up dynamic programming");
 }
