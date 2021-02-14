@@ -1,0 +1,12 @@
+
+// min deletions to make a palindrome
+// this is exactly the inverse of longest palindromic subsequence
+// so calculate that, then return s.size() - LPS
+
+// min insertions to make a palindrome
+// this has the same calculation as min deletions to make a palindrome
+// but instead of removing letters not part of the longest palindrome, we would add them
+
+// k-palindromic
+// can a palindrome be constructed if we removed at most K characters?
+// calculate min deletions to make a palindrome, return k >= deletions
