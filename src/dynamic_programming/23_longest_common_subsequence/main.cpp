@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
+#include "memoization.hpp"
+#include "bottomup.hpp"
+#include "tworow.hpp"
 
 using namespace std;
 
@@ -13,6 +16,13 @@ typedef chrono::high_resolution_clock _clock;
 // recursively, same plan as longest common substring
 // except, we don't have to push down the length of the current substring
 
+// dynamic programming
+// logic: dp[i][j] is the length of the largest common subsequence achieved when considering w1[0:i] and w2[0:j]
+// instantiation: dp = int[w1.size][w2.size]
+// initialization: all 0
+// induction: if w1[i] == w2[j], dp[i][h] = dp[i-1][j-1] + 1
+//            else dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+// so, could be solved with a 2-row table
 
 struct settings
 {
@@ -73,4 +83,7 @@ void test(const settings &s, const string &name)
 int main()
 {
     test<naive>({100, 14}, "naive recursive");
+    test<memoization>({500, 200}, "memoization recursive");
+    test<bottomup>({500, 200}, "bottom-up dynamic programming");
+    test<tworow>({500, 200}, "two-row-bottom-up");
 }
