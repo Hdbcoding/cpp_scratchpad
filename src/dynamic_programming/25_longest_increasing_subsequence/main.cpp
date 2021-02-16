@@ -5,6 +5,7 @@
 #include <vector>
 #include "naive.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -20,6 +21,12 @@ typedef chrono::high_resolution_clock _clock;
 //   if it's bigger than the last number we included, try including it
 //   either way, try skipping it
 //   return the better result
+
+// dynamic programming
+// idea - start with a vector of all 1 - a number by itself is an increasing subsequence
+// for each ending index [1 : nums.size]
+// for each previous index [0 : i]
+//   if nums[i] > nums[j] - dp[i] = dp[j] + 1
 
 struct settings
 {
@@ -74,4 +81,5 @@ int main()
 {
     test<naive>({100, 60, 100}, "naive recursive");
     test<memoization>({500, 200, 100}, "memoization recursive");
+    test<bottomup>({1000, 500, 100}, "bottom-up dynamic programming recursive");
 }
