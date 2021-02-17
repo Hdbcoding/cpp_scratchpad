@@ -1,0 +1,4 @@
+
+Minimum deletions to make a sequence sorted
+This is exactly the same as longest increasing subsequence
+Find that, then return list.size() - lis
