@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
+#include "memoization.hpp"
 
 using namespace std;
 
@@ -73,4 +74,5 @@ void test(const settings &s, const string &name)
 int main()
 {
     test<naive>({100, 14}, "naive recursive");
+    test<memoization>({500, 250}, "memoization recursive");
 }
