@@ -4,6 +4,7 @@
 #include <random>
 #include "naive.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -16,6 +17,16 @@ typedef chrono::high_resolution_clock _clock;
 // recursion idea: do a two pointer search for the longest common subsequence as if there were two strings
 // but both pointers are in the same string
 // and the two pointer indices may not be equal to eachother, but the characters must be equal to each other.
+
+// dynamic programming
+// idea: dp[i][j] = longest subsequence for w[0:i], w[0:j] which repeats
+// instantiation: dp = int[w.size()][w.size()]
+// induction:
+//    if characters are the same, try using this character
+//    if (i != j && w[i] == w[j])
+//      dp[i][j] = 1 + dp[i-1][j-1]
+//    try skipping either character
+//    else dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 
 struct settings
 {
@@ -75,4 +86,5 @@ int main()
 {
     test<naive>({100, 14}, "naive recursive");
     test<memoization>({500, 250}, "memoization recursive");
+    test<bottomup>({500, 250}, "bottom-up dynamic programming");
 }
