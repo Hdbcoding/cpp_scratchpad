@@ -5,6 +5,9 @@
 #include <vector>
 #include "naive.hpp"
 #include "naiveFaster.hpp"
+#include "memoization.hpp"
+#include "memoizationFaster.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -24,6 +27,19 @@ typedef chrono::high_resolution_clock _clock;
 // also
 //   tryDecreasing
 // return the better result
+
+// dynamic programming
+// concept: one vector each for forward and reverse direction longest-decreasing-subsequence
+// calculate each
+// return max(sum(dp1[i] + dp2[i])) - 1 (double counting the center)
+// as for longest decreasing subsequence:
+// instantiation: dp = int[nums.size()]
+// induction:
+//    for i : nums.size()
+//    for j < i
+//       if (nums[i] < nums[j])
+//          dp[i] = max(dp[i], dp[j] + 1);
+
 
 struct settings
 {
@@ -78,4 +94,7 @@ int main()
 {
     test<naive>({100, 30, 100}, "naive recursive");
     test<naiveFaster>({100, 50, 100}, "naive recursive, should be faster");
+    test<memoization>({100, 50, 100}, "memoization recursive");
+    test<memoizationFaster>({500, 200, 100}, "memoization recursive, should be faster");
+    test<bottomup>({500, 200, 100}, "bottom-up dynamic programming");
 }
