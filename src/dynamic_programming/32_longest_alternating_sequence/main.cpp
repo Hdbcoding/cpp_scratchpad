@@ -6,6 +6,7 @@
 #include "naive.hpp"
 #include "naiveSimpler.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -24,6 +25,26 @@ typedef chrono::high_resolution_clock _clock;
 // need a pointer to the last two numbers
 // if num[p2] > num[p], can pick = num[p] < num[current]
 // if (num[p2 < num[p]]), can pick = num[p] > num[current]
+// simpler recursion
+// just use a boolean to say if you need a bigger or a smaller number next
+// make the outer recursive call for both, eg max(true, false)
+// whenever you pick a number, flip the boolean in the next call
+
+// dynamic programming
+// longest monotonic sequence can be dealt with using a single array
+// and doing
+//   for (current in 1 : nums.size)
+//   for (prev in 0 : current)
+//     if nums[current] > nums[prev]
+//       dp[current] = max(dp[current], dp[prev] + 1)
+// so, for las, we can do the same, but have an ascending+descending table
+// where
+//     dpd - descending
+//     dpa - ascending
+//     if (nums[current] < nums[prev])
+//       dpd[current] = max(dpd[current], dpa[prev] + 1)
+//     else if (nums[current] > nums[prev])
+//       dpa[current] = max(dpa[current], dpd[prev] + 1)
 
 
 struct settings
@@ -81,4 +102,5 @@ int main()
     test<naive>({100, 25, 100}, "naive recursive");
     test<naiveSimpler>({100, 25, 100}, "simpler naive recursive");
     test<memoization>({500, 100, 100}, "memoization recursive");
+    test<bottomup>({1000, 300, 100}, "bottom-up dynamic programming");
 }
