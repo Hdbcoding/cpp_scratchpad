@@ -4,6 +4,7 @@
 #include <random>
 #include "naive.hpp"
 #include "memoization.hpp"
+#include "bottomup.hpp"
 
 using namespace std;
 
@@ -18,6 +19,17 @@ typedef chrono::high_resolution_clock _clock;
 // if I can't make any matches, return false
 // if the first word matches, see if the rest matches
 // if the second word matches, see if the rest matches
+
+// dynamic programming
+// dp[i][j] = true if w3[0 : i + j] is an interleaving of w1[0:i] and w2[0:j]
+// instantiation: dp = bool[w1.size() + 1][w2.size() + 1]
+// initialization: 
+//      dp[0][0] = true <- the empty string can be constructed from two empty strings
+//      dp[i][0] = true for as long as the beginning of w3 matches w1
+//      dp[0][j] = true for as long as the beginning of w3 matches w2
+// induction
+//   if w1[i] == w3[i + j] -> dp[i][j] = dp[i-1][j]
+//   else if (w2[j] == w3[i + j]) dp[i][j] = dp[i][j-1]
 
 struct settings
 {
@@ -116,4 +128,5 @@ int main()
 {
     test<naive>({1000, 1000}, "naive recursive");
     test<memoization>({1000, 200}, "memoization recursive");
+    test<bottomup>({1000, 200}, "bottom-up dynamic programming");
 }
