@@ -61,6 +61,7 @@ void test(const settings &s, const string &name)
 
         if (di_coin(dre) == 0)
         {
+            // generate an interleaved string
             int j = 0;
             int k = 0;
             for (int i = 0; i < w3.size(); ++i)
@@ -85,11 +86,13 @@ void test(const settings &s, const string &name)
                     w3[i] = w2[k++];
                 }
             }
+            // sometimes shuffle that string
+            if (di_coin(dre) == 0) 
+                shuffle(w3.begin(), w3.end(), dre);
         }
+        // sometimes generate a random string
         else
-        {
             generate(w3.begin(), w3.end(), [&] { return di_letter(dre); });
-        }
 
         solver.interleaved(w1, w2, w3);
 
