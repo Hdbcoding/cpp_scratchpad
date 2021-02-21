@@ -79,6 +79,6 @@ void test(const settings &s, const string &name)
 int main()
 {
     test<naive>({100, 25, 100}, "naive recursive");
-    test<naiveSimpler>({100, 25, 100}, "naive recursive");
-    test<memoization>({100, 25, 100}, "memoization recursive");
+    test<naiveSimpler>({100, 25, 100}, "simpler naive recursive");
+    test<memoization>({500, 100, 100}, "memoization recursive");
 }
