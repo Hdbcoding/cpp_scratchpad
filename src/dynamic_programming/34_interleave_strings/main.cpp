@@ -3,35 +3,20 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
-#include "memoization.hpp"
-#include "bottomup.hpp"
 
 using namespace std;
 
 typedef chrono::high_resolution_clock _clock;
 
-// edit distance
-// given two strings, count the number of edit operations required to transform w1 into w2
-// an edit operation is a delete, insert, or replace operation
+// interleave strings
+// given 3 strings, find out if the 3rd string could be constructed by interleaving the first two
+// interleaving would maintain the relative order of the characters in the strings
 
-// recursion
-// iterate through the characters of the two strings
-// if w1[i] == w2[j], don't need to edit, can recurse(i + 1, j + 1)
-// otherwise, try the edit operations:
-//   delete from w1: recurse(i + 1, j)
-//   insert to w1: recurse(i, j + 1)
-//   replace in w1: recurse(i + 1, j + 1)
-
-// dynamic programming
-//   concept: dp[i][j] = min edits to transform w1[0:i] to w2[0:j]
-// instantiation: dp = int[w1.size()+1][w2.size()+1]
-// initialization: 
-//    all deletions:  dp[i][0] = i
-//    all insertions: dp[0][j] = j
-// induction:
-//    if w1[i] = w2[j] -> dp[i][j] = dp[i-1][j-1]
-//    else
-//       dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+// recursion, use 3 pointers
+// if I have reached the end of all strings, return true
+// if I can't make any matches, return false
+// if the first word matches, see if the rest matches
+// if the second word matches, see if the rest matches
 
 struct settings
 {
@@ -47,9 +32,10 @@ void test(const settings &s, const string &name)
     t solver;
     auto t1 = _clock::now();
 
-    cout << "verify simple case: " << solver.editDistance("bat", "but") << endl;
-    cout << "verify simple case: " << solver.editDistance("abdca", "cbda") << endl;
-    cout << "verify simple case: " << solver.editDistance("passpot", "ppsspqrt") << endl;
+    cout << "verify simple case: " << solver.interleaved("abd", "cef", "abcdef") << endl;
+    cout << "verify simple case: " << solver.interleaved("abd", "cef", "adcbef") << endl;
+    cout << "verify simple case: " << solver.interleaved("abc", "def", "abdccf") << endl;
+    cout << "verify simple case: " << solver.interleaved("abcdef", "mnop", "mnaobcdepf") << endl;
 
     default_random_engine dre(t1.time_since_epoch().count());
     uniform_int_distribution<char> di_letter('a', 'z');
@@ -66,12 +52,14 @@ void test(const settings &s, const string &name)
 
         string w1(ws1, 'a');
         string w2(ws2, 'a');
+        string w3(ws1 + ws2, 'a');
 
         generate(w1.begin(), w1.end(), [&] { return di_letter(dre); });
         generate(w2.begin(), w2.end(), [&] { return di_letter(dre); });
+        generate(w3.begin(), w3.end(), [&] { return di_letter(dre); });
 
         // for less boilerplate, guarantee that the smaller word is second
-        solver.editDistance(w1, w2);
+        solver.interleaved(w1, w2, w3);
 
         cout << int(progress * 100.0) << "% - ";
         int pwidth = progress * width;
@@ -91,7 +79,5 @@ void test(const settings &s, const string &name)
 
 int main()
 {
-    test<naive>({100, 12}, "naive recursive");
-    test<memoization>({500, 200}, "memoization recursive");
-    test<bottomup>({500, 200}, "bottom-up dynamic programming");
+    test<naive>({1000, 500}, "naive recursive");
 }
