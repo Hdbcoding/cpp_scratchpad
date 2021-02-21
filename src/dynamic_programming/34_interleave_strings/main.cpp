@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <random>
 #include "naive.hpp"
+#include "memoization.hpp"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ void test(const settings &s, const string &name)
     default_random_engine dre(t1.time_since_epoch().count());
     uniform_int_distribution<char> di_letter('a', 'z');
     uniform_int_distribution<int> di_word(1, s.wordSize);
+    uniform_int_distribution<int> di_coin(0, 1);
 
     int cycles = s.cycles;
     float progress = 0;
@@ -56,9 +58,39 @@ void test(const settings &s, const string &name)
 
         generate(w1.begin(), w1.end(), [&] { return di_letter(dre); });
         generate(w2.begin(), w2.end(), [&] { return di_letter(dre); });
-        generate(w3.begin(), w3.end(), [&] { return di_letter(dre); });
 
-        // for less boilerplate, guarantee that the smaller word is second
+        if (di_coin(dre) == 0)
+        {
+            int j = 0;
+            int k = 0;
+            for (int i = 0; i < w3.size(); ++i)
+            {
+                if (j < ws1 && k < ws2)
+                {
+                    if (di_coin(dre) == 0)
+                    {
+                        w3[i] = w1[j++];
+                    }
+                    else
+                    {
+                        w3[i] = w2[k++];
+                    }
+                }
+                else if (j < ws1)
+                {
+                    w3[i] = w1[j++];
+                }
+                else if (k < ws2)
+                {
+                    w3[i] = w2[k++];
+                }
+            }
+        }
+        else
+        {
+            generate(w3.begin(), w3.end(), [&] { return di_letter(dre); });
+        }
+
         solver.interleaved(w1, w2, w3);
 
         cout << int(progress * 100.0) << "% - ";
@@ -79,5 +111,6 @@ void test(const settings &s, const string &name)
 
 int main()
 {
-    test<naive>({1000, 500}, "naive recursive");
+    test<naive>({1000, 1000}, "naive recursive");
+    test<memoization>({1000, 200}, "memoization recursive");
 }
